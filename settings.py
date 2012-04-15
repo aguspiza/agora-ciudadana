@@ -1,5 +1,7 @@
 # Django settings for votering project.
 
+import os
+
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
@@ -87,7 +89,6 @@ TEMPLATE_CONTEXT_PROCESSORS = ("django.contrib.auth.context_processors.auth",
 
 ROOT_URLCONF = 'urls'
 
-import os
 ROOT_PATH = os.path.dirname(__file__)
 TEMPLATE_DIRS = (
     os.path.join(ROOT_PATH, 'templates'),
