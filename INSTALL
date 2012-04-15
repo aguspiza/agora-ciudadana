@@ -11,12 +11,19 @@ The source code is available here: http://github.com/agoraciudadana/agora-ciudad
 
 * Python 2.x >= 2.7
 * python-virtualenv
+* python-pip
 * Has only been tested in Linux so far
 
 Other dependencies can be installed with virtualenv.
 
 
 ### First installation
+
+if all dependencies are installed just 'cd' to the project folder and execute:
+
+	mkdir env
+	virtualenv env
+	source env/bin/activate
 
 Here we will detail the most simple way to get the application running. For a
 more detailed explanation about how to deploy a django, refer to:
@@ -25,6 +32,8 @@ http://docs.djangoproject.com/en/dev/topics/install/
 First thing we need is installing the dependencies in virtualenv:
 
     $ ./setup_env.sh
+
+
 
 Now everytime we want to use the installed virtualenv, we can do the
 following within the directory containing the env/ subdirectory:
