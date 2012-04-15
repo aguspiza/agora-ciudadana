@@ -1,0 +1,187 @@
+{% load i18n %}
+{% load string_tags %}
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+    <meta content="telephone=no" name="format-detection" />
+    <link href="{{STATIC_URL}}favicon.png" rel="icon" type="image/png" />
+    <script src="{{ STATIC_URL }}js/jquery.min.js" type="text/javascript"></script>
+    <script src="{{ STATIC_URL }}bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+    {% if not DEBUG %}
+        <link rel="stylesheet" href="{{ STATIC_URL }}bootstrap/css/bootstrap-responsive.min.css" type="text/css" />
+        <link rel="stylesheet" href="{{ STATIC_URL }}bootstrap/css/bootstrap.min.css" type="text/css" />
+    {% else %}
+        <link rel="stylesheet/less" href="{{ STATIC_URL }}less/agora.less" type="text/less" />
+        <script src="{{ STATIC_URL }}bootstrap/less-1.3.0.js" type="text/javascript"></script>
+    {% endif %}
+    {% block script-block %}{% endblock %}
+    <title>{{ SITE_NAME }} - {% block title %}{% endblock %}</title>
+</head>
+<body>
+    <div class="container">
+        <div class="row" id="headerbar">
+            <div class="span8">
+                <a class="brand" href="{ % url home %}">
+                    <img alt="{{ SITE_NAME }}" src="{{ STATIC_URL }}img/agoralogo.png" />
+                </a>
+                <a class="btn btn-success" href="{ % url voting-vote %}">{% trans "Vote" %}</a>
+                <a class="btn btn-primary" href="{ % url voting-new %}">{% trans "Create Voting" %}</a>
+                <a class="btn btn-primary" href="{ % url agora-new %}">{% trans "Create Agora" %}</a>
+            </div>
+            <div class="span4">
+                <form id="search-form" class="form-search form-inline btn-toolbar" action="{ % url search-form %}">
+                    {% csrf_token %}
+                    <input type="text" class="input-medium search-query"  value="" placeholder="{% trans "Search" %}" name="q" />
+                {% if not user or not user.is_authenticated %}
+                    <a class="user-link link-green" href="{% url userena_signin %}">{% trans "Enter" %}</a>
+                    <a class="user-link" href="{% url userena_signup %}">{% trans "Register" %}</a>
+                {% else %}
+                    <div class="btn-group">
+                        <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                            {{ user.first_name|truncate_words:1 }}
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{% url userena_signout %}">{% trans "Log out" %}</a></li>
+                            <li><a href="{ % url user-preferences %}">{% trans "Preferences" %}</a></li>
+                        </ul>
+                    </div>
+                {% endif %}
+                </form>
+            </div>
+        </div> 
+    </div>
+    <div class="container">
+        <div class="row">
+            {% if messages %}
+                <ul id="flash-messages">
+                    {% for message in messages %}
+                        <div class="alert {{ message.tags }}">
+                            <a class="close" data-dismiss="alert">×</a>
+                            <strong>
+                            {% if message.tags == 'alert-info' %}{% trans "Heads Up!" %}
+                            {% elif message.tags == 'alert-success' %}{% trans "Well done!" %}
+                            {% elif message.tags == 'alert-warning' %}{% trans "Be aware!" %}
+                            {% elif message.tags == 'alert-error' %}{% trans "Oh snap!" %}
+                            {% endif %}
+                            </strong>
+                            {{ message|safe }}
+                        </div>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+        <div class="rows" id="sections-wrapper">
+            <div class="span10">
+                <ul class="nav nav-pills">
+                    <li>
+                        <a href="{ % url agora-list %}">{% trans "Agoras" %}</a>
+                    </li>
+                    <li>
+                        <a href="{ % url votings-list %}">{% trans "Votings" %}</a>
+                    </li>
+                    <li>
+                        <a href="{ % url delegates-list %}">{% trans "Delegates" %}</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="span1">
+                <!-- TODO put a dropdown here with the different available languages -->
+                <ul class="nav nav-pills">
+                    <li>
+                        <a href="#">{% trans "Spanish" %}</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid {% block running-board-wrapper-class %}hero-unit{% endblock %}" id="running-board-wrapper">
+        <div class="container">
+            <div class="row">
+                {% block running-board  %}
+                    <div class="span7">
+                        {% trans "<p>A new way of</p><h1>Taking group decissions</h1>" %}
+                        <a class="btn btn-success" href="{ % url participate %}">{% trans "Participate" %}</a>
+                        <a class="btn btn-primary" href="{ % url explore %}">{% trans "Explore" %}</a>
+                    </div>
+                    <div class="span5">
+                        <blockquote>&ldquo;
+                        {% trans "An indispensable tool to lead an organization in a democratic manner. Its delegation system reflects trust relationships" %}&rdquo;
+                        </blockquote>
+                        <p>{% trans "Eduardo Robles Elvira, Cofounder of Wadobo" %}</p>
+                    </div>
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+    <div id="content-wrapper">
+        <div class="container">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </div>
+    <div class="container-fluid {% block footer-wrapper-class %}{% endblock %}" id="footer-wrapper">
+        <div class="container">
+        <div class="row-fluid">
+            {% block footer %}
+                <div class="span4" id="footer-discover">
+                    <h3>{% trans "Discover" %}</h3>
+                    <ul>
+                        <li>
+                            <a href="{ % url about %}">{% trans "About" %}</a>
+                        </li>
+                        <li>
+                            <a href="{ % url libre-software %}">{% trans "Libre Software" %}</a>
+                        </li>
+                        <li>
+                            <a href="{ % url blog %}">{% trans "Blog" %}</a>
+                        </li>
+                        <li>
+                            <a href="{ % url status %}">{% trans "Status" %}</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="span4" id="footer-serious-stuff">
+                    <h3>{% trans "Serious Stuff" %}</h3>
+                    <ul>
+                        <li id="footer-terms-of-service">
+                            <a href="{ % url terms-of-service %}">{% trans "Terms of Service" %}</a>
+                        </li>
+                        <li id="footer-privacy-policy">
+                            <a href="{ % url privacy-policy %}">{% trans "Privacy Policy" %}</a>
+                        </li>
+                        <li id="footer-security">
+                            <a href="{ % url security %}">{% trans "Security" %}</a>
+                        </li>
+                        <li>
+                            <a href="{ % url contact %}">{% trans "Contact Us" %}</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="span4" id="footer-be-social">
+                    <h3>{% trans "Be Social" %}</h3>
+                    <ul>
+                        <li>
+                            <a href="{ % url twitter %}">{% trans "Follow on Twitter" %}</a>
+                        </li>
+                        <li>
+                            <a href="{ % url facebook %}">{% trans "Like in Facebook" %}</a>
+                        </li>
+                        <li>
+                            <a href="{ % url identica %}">{% trans "Follow in Indenti.ca" %}</a>
+                        </li>
+                        <li>
+                            <a href="{ % url google-plus %}">{% trans "+1 in Google Plus" %}</a>
+                        </li>
+                    </ul>
+                </div>
+            {% endblock %}
+        </div>
+    </div>
+</body>
+</html>

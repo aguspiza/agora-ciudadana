@@ -1,0 +1,205 @@
+@import "../bootstrap/less/bootstrap.less";
+
+// base.html
+
+body {
+    padding-top: 40px;
+}
+
+// Hide asterisk in forms for now
+.asteriskField {
+    display: none;
+}
+
+@header-items-left-margin: 10px;
+
+#headerbar .btn, #headerbar .user-link {
+    margin-left: @header-items-left-margin;
+}
+
+.link-green {
+    color: @green !important;
+
+    &:hover { color: darken(@green, 20%) !important; }
+}
+
+#search-form {
+    margin-bottom: 0;
+    margin-top: 7px;
+    height: 41px;
+
+    input, .btn-group {
+        vertical-align: middle;
+    }
+
+    .btn-group {
+        margin-left: @header-items-left-margin;
+    }
+}
+
+#sections-wrapper {
+    .nav {
+        margin-bottom: 0;
+    }
+}
+
+.box-shadow(@style, @c) when (iscolor(@c)) {
+    box-shadow:         @style @c;
+    -webkit-box-shadow: @style @c;
+    -moz-box-shadow:    @style @c;
+}
+.box-shadow(@style, @alpha: 50%) when (isnumber(@alpha)) {
+  .box-shadow(@style, rgba(0, 0, 0, @alpha));
+}
+
+
+#running-board-wrapper {
+    background-color: #D0DFF2;
+    min-height: 50px;
+    padding: 8px 0 20px !important;
+    border-radius: 0;
+    border: none;
+
+    .box-shadow(0 0 8px, 30%);
+
+    blockquote {
+        border: none;
+        line-height: 27px;
+        margin: 0;
+        padding: 0;
+        font-size: 18px;
+    }
+
+    .span5 {
+        blockquote {
+            margin: 26px 35px 0 35px;
+        }
+
+        p {
+            font-size:  14px;
+            margin-left: 35px;
+        }
+    }
+}
+
+#content-wrapper {
+    min-height: 100px;
+}
+
+#footer-wrapper {
+    background-color: #ECECEC;
+    min-height: 200px;
+    padding: 8px 0 20px !important;
+    .box-shadow(0 0 8px, 30%);
+
+    .container {
+        align: center;
+        width: 600px;
+    }
+
+    ul {
+        list-style: none;
+        margin: 0;
+    }
+
+    h3 {
+        text-transform:uppercase;
+    }
+}
+
+// agora_core/auth.html
+
+.auth-board {
+
+    .span3 {
+        &.auth-highlight {
+            background-color: white;
+
+            p { color: @grayLight; }
+        }
+
+        p { color: @gray; }
+
+        &.use-account {
+            p, strong, small { color: @gray; }
+
+            p, strong {
+                display: block;
+                clear: both;
+            }
+
+            img {
+                padding: 15px;
+            }
+        }
+
+        width: 240px;
+        margin-top: 40px;
+        margin-left: 20px;
+        margin-right: 20px;
+        padding: 20px;
+
+        .form-actions {
+            background: none;
+            border: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        // Correctly position the forgot your password link in the login form
+        #hint_id_password {
+            position: relative;
+            right: -84px;
+            top: -62px;
+        }
+    }
+}
+
+#content-wrapper {
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+
+#footer-wrapper.endless {
+    background-color: #ECECEC;
+    min-height: 20px !important;
+}
+
+.user_list_item.row-fluid {
+    width: 520px;
+    margin-left: 0;
+    padding-left: 0;
+
+    &.row-first .span6 {
+        border-top: 0.5px solid @grayLighter;
+    }
+
+    .span6 {
+        border-bottom: 0.5px solid @grayLighter;
+        border-left: 0.5px solid @grayLighter;
+
+        &.span6-right {
+            border-right: 0.5px solid @grayLighter;
+        }
+
+        margin-left: 0;
+        padding-left: 0;
+
+        @paddingUserList: 17px;
+        div.row-fluid {
+            &:hover {
+                background-color: @grayLighter;
+                color: @linkColor;
+                text-decoration: none;
+            }
+
+            line-height: 25px;
+
+            img { padding: @paddingUserList; }
+            strong { display: block; margin-top: @paddingUserList; }
+
+            p { color: @black; font-size: 14px; }
+        }
+    }
+}
